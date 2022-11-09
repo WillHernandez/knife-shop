@@ -6,12 +6,13 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
+import HomeIcon from '@mui/icons-material/Home';
 
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
-  alignItems: 'flex-start',
+  justifyContent: 'center',
   paddingTop: theme.spacing(1),
   paddingBottom: theme.spacing(2),
   '@media all': {
@@ -29,34 +30,30 @@ export default function ProminentAppBar() {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <StyledToolbar className='appBar'>
-
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-            </IconButton>
-            <Typography
-              variant="h4"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, alignSelf: 'center' }}
-            >
-            KNIFE-SHOP
-            </Typography>
-            <Stack spacing={2} sx={{ width: 300 }}>
-            <TextField label="Search items, brands, etc..." />
-            </Stack>
-					  <IconButton size="large" aria-label="Cart" color="inherit">
-              <div className="cart">
-                <ShoppingCartTwoToneIcon className='cartIcon' /> Cart
-              </div>
-            </IconButton>
+            <div className='brandSearch'>
+              <IconButton href='/'>
+                <HomeIcon fontSize='large' className='homeIcon'/>
+              </IconButton>
+             <a href="/">
+              <Typography
+                variant="h4"
+                noWrap
+                component="div"
+                sx={{ flexGrow: 1, alignSelf: 'center' }}
+              >
+              KNIFE-SHOP
+              </Typography>
+            </a> 
+              <Stack spacing={2} sx={{ width: 300 }}>
+              <TextField label="Search items, brands, etc..." />
+              </Stack>
+					    <IconButton size="large" aria-label="Cart" color="inherit">
+                <div className="cart">
+                  <ShoppingCartTwoToneIcon className='cartIcon' /> Cart
+                </div>
+              </IconButton>
+            </div>
           </StyledToolbar>
-
-
         </AppBar>
       </Box>
     </div>

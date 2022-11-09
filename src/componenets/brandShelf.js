@@ -1,7 +1,10 @@
+import React from "react";
+
 const BrandsShelf = () => {
 	const shelfBrands = ['Benchmade', 'Microtech', 'Protech', 'Spyderco'];
+
 	return(
-		<div className="brandImages">
+		<div className="brandShelf">
 			{shelfBrands.map((brand, i) => (
 				<li key={i}>
 					<a 

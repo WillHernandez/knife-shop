@@ -18,7 +18,7 @@ import { Navigate } from "react-router-dom";
 
 const theme = createTheme();
 
-export default function SignIn() {
+export default function Login() {
 	const [loginMessage, setLoginMessage] = useState('');
 
   const handleSubmit = async (event) => {

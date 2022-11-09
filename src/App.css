@@ -3,8 +3,14 @@
   padding: 0;
 }
 
+a {
+  text-decoration: none !important;
+  color: inherit;
+}
+
 .appBar {
   background-color: #36454F;
+  width: 100vw;
 }
 
 .above button:first-child {
@@ -49,10 +55,11 @@
   height: 300px;
 }
 
-.brandImages {
+.brandShelf{
   display: flex;
   list-style-type: none;
   justify-content: center;
+  padding: 20px 10px 10px 10px;
 }
 
 .cardContainer {
@@ -71,4 +78,25 @@
 
 .productTitle {
   font-size: 22px;
+  text-align: center;
+  justify-content: center;
+}
+
+.brandSearch {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+.brandSearch > * {
+  padding: 20px;
+}
+
+img {
+  height: 200px;
+  width: 100px;
+}
+
+.cardContent {
+  margin: 0px;
 }
