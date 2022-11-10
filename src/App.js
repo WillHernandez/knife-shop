@@ -5,6 +5,7 @@ import Login from './componenets/login';
 import MediaCard from './componenets/cardContent';
 import ProminentAppBar from './componenets/appbar';
 import BrandsShelf from './componenets/brandShelf';
+import Cart from './componenets/cart';
 import Details from './componenets/details';
 import { useState, useEffect } from 'react';
 
@@ -31,14 +32,14 @@ function App() {
               element={<MediaCard brand={brand}/>} >
             </Route>
           })}
-          {/* currently working but returning an error to the console */}
           {products.map((product, i) => {
             return <Route 
               key={i} 
               path={`/${product.brand}/${product.name}`} 
-              element={<Details prodName={product.name}/>} >
+              element={<Details product={product}/>} >
             </Route>
           })}
+          <Route path='/cart' element={<Cart />}></Route>
           {/* <Route path='*' element={<MediaCard />}></Route> */}
         </Routes>
       </Router>

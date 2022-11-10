@@ -11,7 +11,6 @@ import axios from 'axios';
 
 export default function MediaCard({brand}) {
 	const [products, setProducts] = useState([]);
-	// const [index, setIndex] = useState(0);
 
 	useEffect(() => {
 		if(brand) {
@@ -30,15 +29,15 @@ export default function MediaCard({brand}) {
 			{products.map((product, i) => {
 				return(
     			<Card key={i} sx={{ maxWidth: 345, height:500 }}>
-						<a href={`/${product.name}`}>
+						<a href={`/${product.brand}/${product.name}`}>
       				<CardMedia
         				component="img"
         				height="200"
-								src={product.productLinks[0]}
+								src={`/${product.productLinks[0]}`}
       				/>
 						</a>
       			<CardContent className='cardContent'>
-							<a href={`/${product.name}`}>
+							<a href={`/${product.brand}/${product.name}`}>
 								<Typography className='productTitle' gutterBottom variant="p" component="div">
 									{product.title}
         				</Typography>
@@ -48,7 +47,7 @@ export default function MediaCard({brand}) {
 							<a href={`/${product.brand}/${product.name}`}>
         				<Button size="small">More Details</Button>
 							</a>
-							<a href="#0">
+							<a href="/cart">
         				<Button size="small">Add To Cart</Button>
 							</a>
       			</CardActions>

@@ -100,3 +100,13 @@ img {
 .cardContent {
   margin: 0px;
 }
+
+.imgContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.imgContainer img {
+  height: 500px;
+  width: 500px;
+}
