@@ -9,6 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Carousel from 'react-material-ui-carousel'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -24,13 +25,20 @@ export default function Details({product}) {
 			<Container >
 			<Box className='detailsContainer' sx={{ flexGrow: 1 }}>
       	<Grid container spacing={1}>
+
         	<Grid style={{height: '500px', width: '200px'}} item xs={8}>
           	<Item>
 							<div className="imgContainer">
-								<img src={`/${product.productLinks[0]}`} alt="" />
+								{/* <img src={`/${product.productLinks[0]}`} alt="" /> */}
+								<Carousel>
+									{product.productLinks.map((imgLink, i) => {
+									 	return <img src={`/${imgLink}`} alt="" />
+									})}
+								</Carousel>
 							</div>
 						</Item>
         	</Grid>
+
         	<Grid item xs={4}>
           	<Item className='productCart'>
 							<h3>Our Sale Price:</h3>
@@ -40,6 +48,7 @@ export default function Details({product}) {
 							<Button className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
 						</Item>
         	</Grid>
+
         	<Grid style={{height: '400px', width: '200px'}} item xs={8}>
           	<Item>
 							<div className="features">
@@ -56,9 +65,7 @@ export default function Details({product}) {
 							</div>
 						</Item>
         	</Grid>
-        	{/* <Grid item xs={4}>
-          	<Item>xs=5</Item>
-        	</Grid> */}
+
       	</Grid>
     	</Box>
 			</Container>

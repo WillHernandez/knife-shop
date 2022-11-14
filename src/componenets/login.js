@@ -106,7 +106,7 @@ export default function Login() {
 						</Grid>
 					</Grid>
 				</Box>
-				{loginMessage.length > 0 && <h1 className='loginMessageStatus'>{loginMessage}</h1>}
+				{loginMessage.length > 0 && <h3 className='loginMessageStatus'>{loginMessage}</h3>}
 			</Box>
 		</Container>
 	</ThemeProvider> : <Navigate to="/" />}

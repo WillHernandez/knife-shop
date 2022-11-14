@@ -85,7 +85,6 @@ a {
 .brandSearch {
   display: flex;
   align-items: center;
-  /* justify-content: center; */
 }
 
 .brandSearch > * {
@@ -101,9 +100,8 @@ img {
   margin: 0px;
 }
 
-.imgContainer {
-  display: flex;
-  justify-content: center;
+.imgContainer * {
+  text-align: center;
 }
 
 .imgContainer img {
