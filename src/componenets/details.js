@@ -37,7 +37,7 @@ export default function Details({product}) {
 							<h3>{`$${product.price}.00!`}</h3>
 							<p>{product.quantity > 0 ? "In Stock!" : "Out Of Stock :-("}</p> 
 							<SelectVariants product={product}/>
-							<Button style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
+							<Button className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
 						</Item>
         	</Grid>
         	<Grid style={{height: '400px', width: '200px'}} item xs={8}>
@@ -56,9 +56,9 @@ export default function Details({product}) {
 							</div>
 						</Item>
         	</Grid>
-        	<Grid item xs={4}>
+        	{/* <Grid item xs={4}>
           	<Item>xs=5</Item>
-        	</Grid>
+        	</Grid> */}
       	</Grid>
     	</Box>
 			</Container>

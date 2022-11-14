@@ -110,3 +110,29 @@ img {
   height: 500px;
   width: 500px;
 }
+
+.productCart {
+  flex-direction: column;
+  display: flex;
+}
+
+.productCart * {
+  margin: 1px 10px;
+}
+
+.cartBtn {
+  align-self: center;
+  margin: 3px;
+}
+
+.features * {
+  margin: 5px;
+}
+
+.description {
+  margin-top: 20px;
+}
+
+.description * {
+  margin: 5px;
+}
