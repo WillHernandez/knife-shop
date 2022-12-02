@@ -72,6 +72,8 @@ a {
 
 /* centers buttons in card */
 .cardContainer * {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   margin: 10px;
 }
@@ -105,8 +107,8 @@ img {
 }
 
 .imgContainer img {
-  height: 500px;
-  width: 500px;
+  height: 400px;
+  width: auto;
 }
 
 .productCart {
@@ -124,6 +126,8 @@ img {
 }
 
 .features * {
+  display: flex;
+  flex-direction: column;
   margin: 5px;
 }
 
@@ -133,4 +137,28 @@ img {
 
 .description * {
   margin: 5px;
+}
+
+.MuiPaper-root {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: left; */
+  /* align-items: center; */
+}
+
+.MuiPaper-root.tableContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardActions {
+  display: flex;
+  flex-direction:row;
+}
+
+.cardActions button {
+  background-color: rgb(236, 236, 236);
+  margin: 5px;
+  padding: 10px;
 }

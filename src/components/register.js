@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -14,32 +13,32 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState } from 'react';
-import { Navigate } from "react-router-dom";
+import ProminentAppBar from './appbar';
 
 const theme = createTheme();
 
-export default function Login() {
+export default function Register() {
 	const [loginMessage, setLoginMessage] = useState('');
+	const [user, setUser] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
  // retrieve user from database.. successful login = redirect to homepage
- try {
-		const res = await axios.post('http://localhost:4000/api/user/login', {
-			email: data.get('email'),
-			password: data.get('password')	
-		})
-		if(res.statusText === 'OK') {
-			setLoginMessage("Success")
-		} else {
-			setLoginMessage("Could not login with the provided credentials.")
-		}
- } catch (e) {
-			setLoginMessage("Could not login with the provided credentials.")
- }
-  };
+ 		try {
+				const res = await axios.post('http://localhost:4000/api/user/signup', {
+					email: data.get('email'),
+					password: data.get('password')	
+				})
+				if(res.statusText === 'OK') {
+					setLoginMessage("Success");
+					setUser(data.get('email'));
+				} 
+ 			} catch (e) {
+				console.log(e.response);
+ 			}
+	};
 
   return (
 		<div>
@@ -61,6 +60,16 @@ export default function Login() {
 					Sign in
 				</Typography>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+					<TextField
+						margin="normal"
+						required
+						fullWidth
+						id="name"
+						label="Full Name"
+						name="name"
+						autoComplete="name"
+						autoFocus
+					/>
 					<TextField
 						margin="normal"
 						required
@@ -91,25 +100,15 @@ export default function Login() {
 						variant="contained"
 						sx={{ mt: 3, mb: 2 }}
 					>
-						Sign In
+						Sign Up
 					</Button>
 					<Grid container>
-						<Grid item xs>
-							<Link href="#" variant="body2">
-								Forgot password?
-							</Link>
-						</Grid>
-						<Grid item>
-							<Link href="#" variant="body2">
-								{"Don't have an account? Sign Up"}
-							</Link>
-						</Grid>
 					</Grid>
 				</Box>
 				{loginMessage.length > 0 && <h3 className='loginMessageStatus'>{loginMessage}</h3>}
 			</Box>
 		</Container>
-	</ThemeProvider> : <Navigate to="/" />}
+	</ThemeProvider> : <ProminentAppBar user={user} />}
 		</div>
   );
 }

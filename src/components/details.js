@@ -10,16 +10,16 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Carousel from 'react-material-ui-carousel'
+import {addToCart} from './cardContent';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(2),
 	height: '100%',
-  // textAlign: 'center',
 }));
 
-export default function Details({product}) {
+export default function Details({product, user, setCartItems}) {
   return (
 		<React.Fragment>
 			<Container >
@@ -29,10 +29,9 @@ export default function Details({product}) {
         	<Grid style={{height: '500px', width: '200px'}} item xs={8}>
           	<Item>
 							<div className="imgContainer">
-								{/* <img src={`/${product.productLinks[0]}`} alt="" /> */}
 								<Carousel>
 									{product.productLinks.map((imgLink, i) => {
-									 	return <img src={`/${imgLink}`} alt="" />
+									 	return <img key={i} src={`/${imgLink}`} alt="" />
 									})}
 								</Carousel>
 							</div>
@@ -45,7 +44,7 @@ export default function Details({product}) {
 							<h3>{`$${product.price}.00!`}</h3>
 							<p>{product.quantity > 0 ? "In Stock!" : "Out Of Stock :-("}</p> 
 							<SelectVariants product={product}/>
-							<Button className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
+							<Button onClick={e =>{e.preventDefault(); return addToCart(user, product, setCartItems)}} className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
 						</Item>
         	</Grid>
 

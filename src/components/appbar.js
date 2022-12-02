@@ -20,11 +20,11 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-export default function ProminentAppBar() {
+export default function ProminentAppBar({ user, cartLength }) {
   return (
     <div>
       <div className="above">
-        <a href="http://localhost:3000/login"><button className='loginBtn'>Login/Register</button></a> | <button className="helpBtn">Help</button> | <button className="contactBtn">Contact Us</button>
+        {user ? <button className='logoutBtn'>Logout</button> : <a href="http://localhost:3000/login"><button className='loginBtn'>Login/Register</button></a>} | <button className="helpBtn">Help</button> | <button className="contactBtn">Contact Us</button>
       </div>
 
       <Box sx={{ flexGrow: 1 }}>
@@ -47,11 +47,17 @@ export default function ProminentAppBar() {
               <Stack spacing={2} sx={{ width: 300 }}>
               <TextField label="Search items, brands, etc..." />
               </Stack>
-					    <IconButton size="large" aria-label="Cart" color="inherit">
-                <div className="cart">
-                  <ShoppingCartTwoToneIcon className='cartIcon' /> Cart
-                </div>
-              </IconButton>
+              <div className='cartContainer'>
+                {user && <p>{`Welcome back ${user.email}`}</p>}
+                <a href="/cart">
+					        <IconButton size="large" aria-label="Cart" color="inherit">
+                    <div className="cart">
+                      <ShoppingCartTwoToneIcon className='cartIcon' /> Cart
+                      <aside>{cartLength}</aside>
+                    </div>
+                  </IconButton>
+                </a>
+              </div>
             </div>
           </StyledToolbar>
         </AppBar>
