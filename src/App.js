@@ -27,24 +27,18 @@ function App() {
     }
   }, [user])
 
-  // useEffect(() => {
-  //   setCartItems(cartItems);
-  // })
-
   useEffect(() => {
-    // if(!cartItems.length && window.sessionStorage.getItem("cartItems")) {
-      // setCartItems(JSON.parse(window.sessionStorage.getItem("cartItems")));
-    // }
-    if(JSON.parse(window.sessionStorage.getItem("cartItems")) && JSON.parse(window.sessionStorage.getItem("cartItems")).length !== cartItems.length) {
-      setCartItems(cartItems);
-      window.sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+    const sessionCartItems = JSON.parse(window.sessionStorage.getItem("cartItems"));
+    if(sessionCartItems && sessionCartItems.length !== cartItems.length) {
+      setCartItems(sessionCartItems);
+      window.sessionStorage.setItem('cartItems', JSON.stringify(sessionCartItems));
     }
   }, [cartItems])
 
   // write cart to DB
   return (
     <div>
-      <ProminentAppBar user={user} cartLength={cartItems.length}/>
+      <ProminentAppBar user={user} setUser={setUser} cartLength={cartItems.length} setCartItems={setCartItems} />
       <BrandsShelf />
       <Router>
         <Routes>

@@ -7,9 +7,9 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ShoppingCartTwoToneIcon from '@mui/icons-material/ShoppingCartTwoTone';
 import HomeIcon from '@mui/icons-material/Home';
-
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
+import { useState, useEffect } from 'react';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   justifyContent: 'center',
@@ -20,11 +20,30 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-export default function ProminentAppBar({ user, cartLength }) {
+export default function ProminentAppBar({ user, setUser, cartLength}) {
+  const [cart, setCart] = useState(cartLength);
+
+  useEffect(()=> {
+    const sessionCart = JSON.parse(window.sessionStorage.getItem("cartItems"))
+    if(sessionCart && sessionCart.length) {
+      setCart(sessionCart.length);
+    } else {
+      setCart(cartLength);
+    }
+  }, [cartLength]);
+
+  const logoutHandler = e => {
+    e.preventDefault();
+    window.sessionStorage.removeItem('user');
+    window.sessionStorage.removeItem('cartItems');
+    setUser("");
+    setCart(0);
+  }
+
   return (
     <div>
       <div className="above">
-        {user ? <button className='logoutBtn'>Logout</button> : <a href="http://localhost:3000/login"><button className='loginBtn'>Login/Register</button></a>} | <button className="helpBtn">Help</button> | <button className="contactBtn">Contact Us</button>
+        {user ? <button onClick={logoutHandler} className='logoutBtn'>Logout</button> : <a href="http://localhost:3000/login"><button className='loginBtn'>Login/Register</button></a>} | <button className="helpBtn">Help</button> | <button className="contactBtn">Contact Us</button>
       </div>
 
       <Box sx={{ flexGrow: 1 }}>
@@ -53,7 +72,7 @@ export default function ProminentAppBar({ user, cartLength }) {
 					        <IconButton size="large" aria-label="Cart" color="inherit">
                     <div className="cart">
                       <ShoppingCartTwoToneIcon className='cartIcon' /> Cart
-                      <aside>{cartLength}</aside>
+                      <aside>{cart}</aside>
                     </div>
                   </IconButton>
                 </a>

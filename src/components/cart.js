@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef} from 'react';
 // import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
@@ -33,25 +33,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Cart = ({userEmail, setCartItems}) => {
-	const [userCart, setCart] = useState({})
+	const [userCart, setCart] = useState({});
 
 	useEffect(()=> {
-		if(userEmail) {
-			axios(`http://localhost:4000/api/orders/${userEmail}`)
-			.then(res => setCart(res.data))
-			.catch(() => setCart(JSON.parse(window.sessionStorage.getItem("user"))))
-		} else {
-			setCart(JSON.parse(window.sessionStorage.getItem("user")));
-    }
-	}, [userEmail])
+		axios(`http://localhost:4000/api/orders/${userEmail}`)
+		.then(res => setCart(res.data))
+		.catch(() => setCart(JSON.parse(window.sessionStorage.getItem("user"))))
+	}, [userEmail]);
 
-
-  const rows = [];
+  let rows = useRef([]);
+  useEffect(()=> {
   if(userCart && userCart.cartItems) {
-    for(let cartItem of userCart.cartItems) {
-      rows.push({...cartItem});
-    }
+    rows.current = [...userCart.cartItems];
+    // setCartItems(userCart.cartItems);
   }
+  },[userCart, setCartItems])
 
   const handleDelete = async e => {
     e.preventDefault();
@@ -62,7 +58,8 @@ const Cart = ({userEmail, setCartItems}) => {
       }
     }
     setCart(cartCopy);
-    setCartItems(cartCopy);
+    setCartItems(cartCopy.cartItems);
+    window.sessionStorage.setItem('cartItems', JSON.stringify(cartCopy));
   
     await axios.patch(`http://localhost:4000/api/orders/${userEmail}`, cartCopy)
     .catch(err => console.log({err: err.message}))
@@ -80,7 +77,7 @@ const Cart = ({userEmail, setCartItems}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, i) => (
+          {rows.current.length && rows.current.map((row, i) => (
             <StyledTableRow key={i}>
               <StyledTableCell component="th" scope="row">
                 {row.item}
