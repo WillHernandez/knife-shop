@@ -19,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 	height: '100%',
 }));
 
-export default function Details({product, user, setCartItems}) {
+export default function Details({ product, user }) {
   return (
 		<React.Fragment>
 			<Container >
@@ -44,7 +44,7 @@ export default function Details({product, user, setCartItems}) {
 							<h3>{`$${product.price}.00!`}</h3>
 							<p>{product.quantity > 0 ? "In Stock!" : "Out Of Stock :-("}</p> 
 							<SelectVariants product={product}/>
-							<Button onClick={e =>{e.preventDefault(); return addToCart(user, product, setCartItems)}} className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
+							<Button onClick={e =>{e.preventDefault(); return addToCart(user, product)}} className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
 						</Item>
         	</Grid>
 

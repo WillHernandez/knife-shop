@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
-export default function Login({ setUser, setCartItems }) {
+export default function Login({ setUser }) {
 	const [loginMessage, setLoginMessage] = useState('');
 	const navigate = useNavigate();
 
@@ -35,7 +35,6 @@ export default function Login({ setUser, setCartItems }) {
 				if(res.statusText === 'OK') {
 					const orderRes = await axios(`http://localhost:4000/api/orders/${data.get('email')}`);
 					setUser(res.data);
-					setCartItems(orderRes.data.cartItems)
       		window.sessionStorage.setItem("user", JSON.stringify(res.data));
       		window.sessionStorage.setItem("cartItems", JSON.stringify(orderRes.data.cartItems));
 					navigate('/');

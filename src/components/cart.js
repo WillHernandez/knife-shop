@@ -32,7 +32,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const Cart = ({userEmail, setCartItems}) => {
+const Cart = ({ userEmail }) => {
 	const [userCart, setCart] = useState({});
 
 	useEffect(()=> {
@@ -45,9 +45,8 @@ const Cart = ({userEmail, setCartItems}) => {
   useEffect(()=> {
   if(userCart && userCart.cartItems) {
     rows.current = [...userCart.cartItems];
-    // setCartItems(userCart.cartItems);
   }
-  },[userCart, setCartItems])
+  },[userCart])
 
   const handleDelete = async e => {
     e.preventDefault();
@@ -58,7 +57,6 @@ const Cart = ({userEmail, setCartItems}) => {
       }
     }
     setCart(cartCopy);
-    setCartItems(cartCopy.cartItems);
     window.sessionStorage.setItem('cartItems', JSON.stringify(cartCopy));
   
     await axios.patch(`http://localhost:4000/api/orders/${userEmail}`, cartCopy)

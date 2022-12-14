@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const addToCart = async (user, product, setCartItems, quantity) => {
+const addToCart = async (user, product, quantity) => {
 	const order = {
 		"email": user.email,
 		"cartItem": {
@@ -27,7 +27,6 @@ const addToCart = async (user, product, setCartItems, quantity) => {
 					}
 					if(!wasDuplicate) {
 						dbCartItems.push(order.cartItem);
-						setCartItems(userHasOrder.data.cartItems);
 					}
 					await axios.patch(`http://localhost:4000/api/orders/${user.email}`, userHasOrder.data)
 				}

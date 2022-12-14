@@ -13,7 +13,6 @@ import { useState, useEffect } from 'react';
 function App() {
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState('');
-  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
 		axios(`http://localhost:4000/api/products`)
@@ -27,25 +26,17 @@ function App() {
     }
   }, [user])
 
-  useEffect(() => {
-    const sessionCartItems = JSON.parse(window.sessionStorage.getItem("cartItems"));
-    if(sessionCartItems && sessionCartItems.length !== cartItems.length) {
-      setCartItems(sessionCartItems);
-      window.sessionStorage.setItem('cartItems', JSON.stringify(sessionCartItems));
-    }
-  }, [cartItems])
-
   // write cart to DB
   return (
     <div>
-      <ProminentAppBar user={user} setUser={setUser} cartLength={cartItems.length} setCartItems={setCartItems} />
+      <ProminentAppBar user={user} setUser={setUser} />
       <BrandsShelf />
       <Router>
         <Routes>
-          <Route path='/' element={<MediaCard setCartItems={setCartItems} />}></Route>
-          <Route path='/login' element={<Login setUser={setUser} setCartItems={setCartItems} />}></Route>
+          <Route path='/' element={<MediaCard />}></Route>
+          <Route path='/login' element={<Login setUser={setUser} />}></Route>
           <Route path='/signup' element={<Register />}></Route>
-          <Route path='/cart' element={<Cart userEmail={user.email} setCartItems={setCartItems}/>}></Route>
+          <Route path='/cart' element={<Cart userEmail={user.email} />}></Route>
           {['Benchmade','Microtech', 'Protech', 'Spyderco'].map((brand, i) => {
             return <Route 
               key={i} 
@@ -57,7 +48,7 @@ function App() {
             return <Route 
               key={i} 
               path={`/${product.brand}/${product.name}`} 
-              element={<Details product={product} user={user} setCartItems={setCartItems}/>} >
+              element={<Details product={product} user={user} />} >
             </Route>
           })}
         </Routes>
