@@ -20,24 +20,22 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   },
 }));
 
-export default function ProminentAppBar({ user, setUser, cartLength}) {
-  const [cart, setCart] = useState(cartLength);
+export default function ProminentAppBar({ user, setUser }) {
+  const [cartLength, setCartLength] = useState(0);
 
   useEffect(()=> {
-    const sessionCart = JSON.parse(window.sessionStorage.getItem("cartItems"))
-    if(sessionCart && sessionCart.length) {
-      setCart(sessionCart.length);
-    } else {
-      setCart(cartLength);
+    if(window.sessionStorage.cartItems) {
+      const cart = JSON.parse(window.sessionStorage.cartItems);
+      setCartLength(cart.length);
     }
-  }, [cartLength]);
+  }, [setCartLength])
 
   const logoutHandler = e => {
     e.preventDefault();
     window.sessionStorage.removeItem('user');
     window.sessionStorage.removeItem('cartItems');
     setUser("");
-    setCart(0);
+    setCartLength(0);
   }
 
   return (
@@ -72,7 +70,7 @@ export default function ProminentAppBar({ user, setUser, cartLength}) {
 					        <IconButton size="large" aria-label="Cart" color="inherit">
                     <div className="cart">
                       <ShoppingCartTwoToneIcon className='cartIcon' /> Cart
-                      <aside>{cart}</aside>
+                      <aside>{cartLength}</aside>
                     </div>
                   </IconButton>
                 </a>

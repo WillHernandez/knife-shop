@@ -7,8 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useState, useEffect, useMemo, useRef} from 'react';
-// import IconButton from '@mui/material/IconButton';
+import { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 
@@ -32,33 +31,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const Cart = ({ userEmail }) => {
-	const [userCart, setCart] = useState({});
+const Cart = () => {
+  const [cartItems, setCartItems] = useState([]);
 
 	useEffect(()=> {
-		axios(`http://localhost:4000/api/orders/${userEmail}`)
-		.then(res => setCart(res.data))
-		.catch(() => setCart(JSON.parse(window.sessionStorage.getItem("user"))))
-	}, [userEmail]);
-
-  let rows = useRef([]);
-  useEffect(()=> {
-  if(userCart && userCart.cartItems) {
-    rows.current = [...userCart.cartItems];
-  }
-  },[userCart])
+    if(window.sessionStorage.cartItems) {
+      setCartItems(JSON.parse(window.sessionStorage.getItem('cartItems')));
+    }
+	}, []);
 
   const handleDelete = async e => {
     e.preventDefault();
-    const cartCopy = JSON.parse(JSON.stringify(userCart));
-    for(let i = 0; i < cartCopy.cartItems.length; ++i) {
-      if(cartCopy.cartItems[i].item === e.target.className) {
-        cartCopy.cartItems.splice(i,1);
+    let userEmail;
+    if(window.sessionStorage.getItem('user')) {
+      const user = JSON.parse(window.sessionStorage.user);
+      userEmail = user.email;
+    }
+    const cartCopy = JSON.parse(window.sessionStorage.cartItems);
+    for(let i = 0; i < cartCopy.length; ++i) {
+      if(cartCopy[i].item === e.target.className) {
+        cartCopy.splice(i,1);
       }
     }
-    setCart(cartCopy);
     window.sessionStorage.setItem('cartItems', JSON.stringify(cartCopy));
-  
+    setCartItems(cartCopy);
+    // NOT deleting from DB Correctly... check patch func in backend
     await axios.patch(`http://localhost:4000/api/orders/${userEmail}`, cartCopy)
     .catch(err => console.log({err: err.message}))
   }
@@ -75,19 +72,15 @@ const Cart = ({ userEmail }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.current.length && rows.current.map((row, i) => (
+          {cartItems.length && cartItems.map((row, i) => (
             <StyledTableRow key={i}>
-              <StyledTableCell component="th" scope="row">
-                {row.item}
-              </StyledTableCell>
+              <StyledTableCell component="th" scope="row">{row.item}</StyledTableCell>
               <StyledTableCell align="right">{`$${row.price}.00`}</StyledTableCell>
               <StyledTableCell align="right">{row.quantity}</StyledTableCell>
               <StyledTableCell align="right">
                 <button className={`${row.item}`} onClick={handleDelete}>
                   <DeleteIcon style={{'pointerEvents':'none'}} className={`deleteCartIcon`}/>
                 </button>
-                  {/* <IconButton className={`${row.item}`}>
-                  </IconButton> */}
               </StyledTableCell>
             </StyledTableRow>
           ))}

@@ -36,7 +36,6 @@ export const MediaCard = ({brand, setCartItems}) => {
 		<div className="cardContainer">
 			{products.map((product, i) => {
 				return(
-    			// <Card key={i} sx={{ maxWidth: 345, height:500 }}>
     			<Card className='card' key={i} sx={{ width: 345, height:500 }}>
 						<a href={`/${product.brand}/${product.name}`}>
       				<CardMedia

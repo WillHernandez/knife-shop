@@ -36,7 +36,7 @@ function App() {
           <Route path='/' element={<MediaCard />}></Route>
           <Route path='/login' element={<Login setUser={setUser} />}></Route>
           <Route path='/signup' element={<Register />}></Route>
-          <Route path='/cart' element={<Cart userEmail={user.email} />}></Route>
+          <Route path='/cart' element={<Cart />}></Route>
           {['Benchmade','Microtech', 'Protech', 'Spyderco'].map((brand, i) => {
             return <Route 
               key={i} 
