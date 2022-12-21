@@ -1,13 +1,17 @@
 import axios from "axios";
 
-async function addToCart(product, quantity, cartItems) {
+async function addToCart(product, quantity) {
 	const cartItem = {
 		"item": product.name,
 		"price": product.price,
 		"quantity": quantity
 	}
 
-	const cartItemsCopy = cartItems.slice();
+	let cartItemsCopy;
+	if(sessionStorage.cartItems) {
+		cartItemsCopy = JSON.parse(sessionStorage.getItem('cartItems'))
+	}
+
 	let wasDuplicate = false;
 	for(let i = 0; i < cartItemsCopy.length; ++i) {
 		if(cartItemsCopy[i].item === product.name) {
