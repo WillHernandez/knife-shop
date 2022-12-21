@@ -13,7 +13,7 @@ import { useGlobalState, setGlobalState } from '../state/index';
 
 export const MediaCard = ({brand}) => {
 	const [products, setProducts] = useState([]);
-	const cartItems = useGlobalState('cartItems');
+	const cartItems = useGlobalState('cartItems')[0];
 
 	useEffect(() => {
 		if(brand) {
@@ -27,14 +27,14 @@ export const MediaCard = ({brand}) => {
 		}
 	}, [brand])
 
-	const addToCart = async (product) => {
+	const addToCart = async (product, quantity) => {
 		const cartItem = {
 			"item": product.name,
 			"price": product.price,
-			"quantity": 1
+			"quantity": quantity
 		}
 
-		const cartItemsCopy = cartItems[0].slice();
+		const cartItemsCopy = cartItems.slice();
 		let wasDuplicate = false;
 		for(let i = 0; i < cartItemsCopy.length; ++i) {
 			if(cartItemsCopy[i].item === product.name) {
@@ -81,7 +81,7 @@ export const MediaCard = ({brand}) => {
 							<a href={`/${product.brand}/${product.name}`}>
         				<Button size="small">More Details</Button>
 							</a>
-        			<Button onClick={e => {e.preventDefault(); addToCart(product)}} className={`${product.brand}_btn`} id={`${product.name}`} size="small">Add To Cart</Button>
+        			<Button onClick={e => {e.preventDefault(); addToCart(product, 1)}} className={`${product.brand}_btn`} id={`${product.name}`} size="small">Add To Cart</Button>
       			</CardActions>
     			</Card>
 				)
