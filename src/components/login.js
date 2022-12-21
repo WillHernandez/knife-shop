@@ -15,10 +15,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { setGlobalState } from '../state/index';
 
 const theme = createTheme();
 
-export default function Login({ setUser }) {
+export default function Login() {
 	const [loginMessage, setLoginMessage] = useState('');
 	const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ export default function Login({ setUser }) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
 
- // retrieve user from database.. successful login = redirect to homepage
+ // retrieve user from database.. successful login = redirect to homepage. add to global state vars
  		try {
 				const res = await axios.post('http://localhost:4000/api/user/login', {
 					email: data.get('email'),
@@ -34,13 +35,14 @@ export default function Login({ setUser }) {
 				})
 				if(res.statusText === 'OK') {
 					const orderRes = await axios(`http://localhost:4000/api/orders/${data.get('email')}`);
-					setUser(res.data);
-      		window.sessionStorage.setItem("user", JSON.stringify(res.data));
-      		window.sessionStorage.setItem("cartItems", JSON.stringify(orderRes.data.cartItems));
+					setGlobalState("user", res.data);
+					setGlobalState("cartItems", orderRes.data.cartItems);
+					setGlobalState("userOrder", orderRes.data);
+					sessionStorage.setItem('user', JSON.stringify(res.data));
+					sessionStorage.setItem('cartItems', JSON.stringify(orderRes.data.cartItem));
+					sessionStorage.setItem('userOrder', JSON.stringify(orderRes.data));
 					navigate('/');
 				} 
-
-
  			} catch (e) {
 					e.response.status === 401 ? setLoginMessage("Could not login with the provided credentials.") : setLoginMessage("No account found. Please register.")
  			}

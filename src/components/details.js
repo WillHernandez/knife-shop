@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Carousel from 'react-material-ui-carousel'
-import addToCart from './addToCart';
+import AddToCart from './addToCart';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
 	height: '100%',
 }));
 
-export default function Details({ product, user }) {
+export default function Details({ product }) {
   return (
 		<React.Fragment>
 			<Container >
@@ -44,7 +44,7 @@ export default function Details({ product, user }) {
 							<h3>{`$${product.price}.00!`}</h3>
 							<p>{product.quantity > 0 ? "In Stock!" : "Out Of Stock :-("}</p> 
 							<SelectVariants product={product}/>
-							<Button onClick={e =>{e.preventDefault(); return addToCart(user, product)}} className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
+							<Button onClick={e =>{e.preventDefault(); return AddToCart(product)}} className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
 						</Item>
         	</Grid>
 

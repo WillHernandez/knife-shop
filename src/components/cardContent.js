@@ -7,12 +7,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
-import addToCart from './addToCart';
+// import AddToCart from './addToCart';
 import axios from 'axios';
+import { useGlobalState, setGlobalState } from '../state/index';
 
-export const MediaCard = ({brand, setCartItems}) => {
+export const MediaCard = ({brand}) => {
 	const [products, setProducts] = useState([]);
-	const [user, setUser] = useState({});
+	const cartItems = useGlobalState('cartItems');
 
 	useEffect(() => {
 		if(brand) {
@@ -26,11 +27,36 @@ export const MediaCard = ({brand, setCartItems}) => {
 		}
 	}, [brand])
 
-	useEffect(() => {
-		if(window.sessionStorage.getItem('user')) {
-			setUser(JSON.parse(window.sessionStorage.getItem('user')));
+	const addToCart = async (product) => {
+		const cartItem = {
+			"item": product.name,
+			"price": product.price,
+			"quantity": 1
 		}
-	},[]);
+
+		const cartItemsCopy = cartItems[0].slice();
+		let wasDuplicate = false;
+		for(let i = 0; i < cartItemsCopy.length; ++i) {
+			if(cartItemsCopy[i].item === product.name) {
+				cartItemsCopy[i].quantity += 1;
+				wasDuplicate = true;
+				break;
+			}
+		}
+		if(!wasDuplicate) {
+			cartItemsCopy.push(cartItem);
+		}
+		setGlobalState('cartItems', cartItemsCopy);
+		sessionStorage.setItem('cartItems', JSON.stringify(cartItemsCopy));
+
+		let user;
+		if(sessionStorage.getItem('user')) {
+			user = JSON.parse(sessionStorage.getItem('userOrder'));
+			user.cartItems = cartItemsCopy;
+			await axios.patch(`http://localhost:4000/api/orders/${user.email}`, user)
+			.catch(e => console.error({error: e.message}))
+		}
+	}
 
   return (
 		<div className="cardContainer">
@@ -55,7 +81,7 @@ export const MediaCard = ({brand, setCartItems}) => {
 							<a href={`/${product.brand}/${product.name}`}>
         				<Button size="small">More Details</Button>
 							</a>
-        			<Button onClick={e => {e.preventDefault(); addToCart(user, product, setCartItems)}} className={`${product.brand}_btn`} id={`${product.name}`} size="small">Add To Cart</Button>
+        			<Button onClick={e => {e.preventDefault(); addToCart(product)}} className={`${product.brand}_btn`} id={`${product.name}`} size="small">Add To Cart</Button>
       			</CardActions>
     			</Card>
 				)

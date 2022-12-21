@@ -12,7 +12,6 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [products, setProducts] = useState([]);
-  const [user, setUser] = useState('');
 
   useEffect(() => {
 		axios(`http://localhost:4000/api/products`)
@@ -20,21 +19,15 @@ function App() {
 		.catch(e => console.log({error: e.message}))
   }, [])
 
-  useEffect(() => {
-    if(!user && window.sessionStorage.getItem("user")) {
-      setUser(JSON.parse(window.sessionStorage.getItem("user")));
-    }
-  }, [user])
-
   // write cart to DB
   return (
     <div>
-      <ProminentAppBar user={user} setUser={setUser} />
+      <ProminentAppBar />
       <BrandsShelf />
       <Router>
         <Routes>
           <Route path='/' element={<MediaCard />}></Route>
-          <Route path='/login' element={<Login setUser={setUser} />}></Route>
+          <Route path='/login' element={<Login />}></Route>
           <Route path='/signup' element={<Register />}></Route>
           <Route path='/cart' element={<Cart />}></Route>
           {['Benchmade','Microtech', 'Protech', 'Spyderco'].map((brand, i) => {
@@ -48,7 +41,7 @@ function App() {
             return <Route 
               key={i} 
               path={`/${product.brand}/${product.name}`} 
-              element={<Details product={product} user={user} />} >
+              element={<Details product={product} />} >
             </Route>
           })}
         </Routes>

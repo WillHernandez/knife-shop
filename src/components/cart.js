@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
+import { useGlobalState, setGlobalState } from '../state/index';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,31 +33,40 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const Cart = () => {
+  const globalCartItems = useGlobalState('cartItems')[0];
   const [cartItems, setCartItems] = useState([]);
 
 	useEffect(()=> {
-    if(window.sessionStorage.cartItems) {
-      setCartItems(JSON.parse(window.sessionStorage.getItem('cartItems')));
+    if(globalCartItems.length) {
+      setCartItems(globalCartItems);
+    } else if (sessionStorage.getItem('cartItems')) {
+      const localCartItems = JSON.parse(sessionStorage.cartItems);
+      setCartItems(localCartItems);
     }
-	}, []);
+	}, [globalCartItems]);
 
+  // setGlobalState after delete... confirm working
   const handleDelete = async e => {
     e.preventDefault();
-    let userEmail;
-    if(window.sessionStorage.getItem('user')) {
-      const user = JSON.parse(window.sessionStorage.user);
-      userEmail = user.email;
-    }
-    const cartCopy = JSON.parse(window.sessionStorage.cartItems);
+    
+    const cartCopy = JSON.parse(sessionStorage.cartItems);
     for(let i = 0; i < cartCopy.length; ++i) {
       if(cartCopy[i].item === e.target.className) {
         cartCopy.splice(i,1);
+        break;
       }
     }
-    window.sessionStorage.setItem('cartItems', JSON.stringify(cartCopy));
+    sessionStorage.setItem('cartItems', JSON.stringify(cartCopy));
     setCartItems(cartCopy);
-    // NOT deleting from DB Correctly... check patch func in backend
-    await axios.patch(`http://localhost:4000/api/orders/${userEmail}`, cartCopy)
+    setGlobalState('cartItems', cartCopy);
+
+    let user;
+    if(sessionStorage.getItem('userOrder')) {
+      user = JSON.parse(sessionStorage.userOrder);
+      user.cartItems = cartCopy;
+    }
+    // confirm deleting from DB Correctly... must provide complete user obj with new cartItems arr
+    await axios.patch(`http://localhost:4000/api/orders/${user.email}`, user)
     .catch(err => console.log({err: err.message}))
   }
 
@@ -72,7 +82,7 @@ const Cart = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {cartItems.length && cartItems.map((row, i) => (
+          {cartItems && cartItems.map((row, i) => (
             <StyledTableRow key={i}>
               <StyledTableCell component="th" scope="row">{row.item}</StyledTableCell>
               <StyledTableCell align="right">{`$${row.price}.00`}</StyledTableCell>
