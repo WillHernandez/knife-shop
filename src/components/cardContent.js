@@ -7,7 +7,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
-// import AddToCart from './addToCart';
+import addToCart from './addToCart';
 import axios from 'axios';
 import { useGlobalState, setGlobalState } from '../state/index';
 
@@ -27,35 +27,9 @@ export const MediaCard = ({brand}) => {
 		}
 	}, [brand])
 
-	const addToCart = async (product, quantity) => {
-		const cartItem = {
-			"item": product.name,
-			"price": product.price,
-			"quantity": quantity
-		}
-
-		const cartItemsCopy = cartItems.slice();
-		let wasDuplicate = false;
-		for(let i = 0; i < cartItemsCopy.length; ++i) {
-			if(cartItemsCopy[i].item === product.name) {
-				cartItemsCopy[i].quantity += 1;
-				wasDuplicate = true;
-				break;
-			}
-		}
-		if(!wasDuplicate) {
-			cartItemsCopy.push(cartItem);
-		}
+	const	handleAddToCart = (product, quantity, cartItems) => {
+		const cartItemsCopy = addToCart(product, quantity, cartItems);
 		setGlobalState('cartItems', cartItemsCopy);
-		sessionStorage.setItem('cartItems', JSON.stringify(cartItemsCopy));
-
-		let user;
-		if(sessionStorage.getItem('user')) {
-			user = JSON.parse(sessionStorage.getItem('userOrder'));
-			user.cartItems = cartItemsCopy;
-			await axios.patch(`http://localhost:4000/api/orders/${user.email}`, user)
-			.catch(e => console.error({error: e.message}))
-		}
 	}
 
   return (
@@ -81,7 +55,7 @@ export const MediaCard = ({brand}) => {
 							<a href={`/${product.brand}/${product.name}`}>
         				<Button size="small">More Details</Button>
 							</a>
-        			<Button onClick={e => {e.preventDefault(); addToCart(product, 1)}} className={`${product.brand}_btn`} id={`${product.name}`} size="small">Add To Cart</Button>
+        			<Button onClick={e => {e.preventDefault(); handleAddToCart(product, 1, cartItems)}} className={`${product.brand}_btn`} id={`${product.name}`} size="small">Add To Cart</Button>
       			</CardActions>
     			</Card>
 				)
