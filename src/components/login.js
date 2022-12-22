@@ -38,6 +38,7 @@ export default function Login() {
 					setGlobalState("user", res.data);
 					setGlobalState("cartItems", orderRes.data.cartItems);
 					setGlobalState("userOrder", orderRes.data);
+					sessionStorage.clear();
 					sessionStorage.setItem('user', JSON.stringify(res.data));
 					sessionStorage.setItem('cartItems', JSON.stringify(orderRes.data.cartItem));
 					sessionStorage.setItem('userOrder', JSON.stringify(orderRes.data));

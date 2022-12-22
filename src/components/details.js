@@ -27,6 +27,8 @@ export default function Details({ product }) {
 		setGlobalState('cartItems', cartItemsCopy);
 	}
 
+	const [retQuantity, setRetQuantity] = useState(0);
+
   return (
 		<React.Fragment>
 			<Container >
@@ -51,9 +53,8 @@ export default function Details({ product }) {
 							<h3>Our Sale Price:</h3>
 							<h3>{`$${product.price}.00!`}</h3>
 							<p>{product.quantity > 0 ? "In Stock!" : "Out Of Stock :-("}</p> 
-							<SelectVariants product={product}/>
-																																{/* add quantity value ^ from dropdown */}
-							<Button onClick={e =>{e.preventDefault(); return handleAddToCart(product, 1)}} className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
+							<SelectVariants setRetQuantity={setRetQuantity} product={product}/>
+							<Button onClick={e =>{e.preventDefault(); return handleAddToCart(product, retQuantity)}} className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
 						</Item>
         	</Grid>
 
@@ -81,8 +82,7 @@ export default function Details({ product }) {
   );
 }
 
-const SelectVariants = ({product}) => {
-  const [quantity, setQuantity] = useState('');
+const SelectVariants = ({product, setRetQuantity}) => {
 	const [menuArr, setMenuArr] = useState([]);
 
 	useEffect(()=> {
@@ -94,7 +94,7 @@ const SelectVariants = ({product}) => {
 	},[product])
 
   const handleChange = (event) => {
-    setQuantity(event.target.value);
+		setRetQuantity(event.target.value);
   };
 
 	
@@ -105,7 +105,6 @@ const SelectVariants = ({product}) => {
         <Select
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
-          value={quantity}
           onChange={handleChange}
           label="quantity"
         >

@@ -7,7 +7,7 @@ async function addToCart(product, quantity) {
 		"quantity": quantity
 	}
 
-	let cartItemsCopy;
+	let cartItemsCopy = [];
 	if(sessionStorage.cartItems) {
 		cartItemsCopy = JSON.parse(sessionStorage.getItem('cartItems'))
 	}
