@@ -12,6 +12,7 @@ import Select from '@mui/material/Select';
 import Carousel from 'react-material-ui-carousel'
 import addToCart from './addToCart';
 import { setGlobalState } from '../state';
+import { useState, useEffect } from 'react';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -81,18 +82,22 @@ export default function Details({ product }) {
 }
 
 const SelectVariants = ({product}) => {
-  const [quantity, setQuantity] = React.useState('');
+  const [quantity, setQuantity] = useState('');
+	const [menuArr, setMenuArr] = useState([]);
+
+	useEffect(()=> {
+		let arr = [];
+		for(let i = 0; i < product.quantity; ++i) {
+			arr[i] = i + 1;
+		}
+		setMenuArr(arr);
+	},[product])
 
   const handleChange = (event) => {
     setQuantity(event.target.value);
   };
 
-	const menuItems = count => {
-		for(let i = 0; i < count; ++i) {
-			return <MenuItem value={i + 1}>{i + 1}</MenuItem>
-		}
-	}
-
+	
   return (
     <div>
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
@@ -104,9 +109,11 @@ const SelectVariants = ({product}) => {
           onChange={handleChange}
           label="quantity"
         >
-					{menuItems(product.quantity)}
+					{menuArr.map(item => {
+						return <MenuItem value={item}>{item}</MenuItem>
+					})}
         </Select>
       </FormControl>
     </div>
-  );
+  )
 }

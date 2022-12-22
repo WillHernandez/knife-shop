@@ -27,26 +27,35 @@ export default function ProminentAppBar() {
   const [cartLength, setCartLength] = useState(0);
   const [userEmail, setUserEmail] = useState('');
 
- useEffect(() => {
-  if(cartItems.length) {
-    sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
-    setCartLength(cartItems.length);
-  }else if(sessionStorage.getItem('cartItems')) {
-    const localCartItems = JSON.parse(sessionStorage.getItem('cartItems')) 
-    setCartLength(localCartItems.length);
-  }
- },[cartItems])
+  useEffect(() => {
+    let cartCount;
+    if(cartItems.length) {
+      sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+      cartCount = getCartLength(cartItems);
+      setCartLength(cartCount);
+    }else if(sessionStorage.getItem('cartItems')) {
+      cartCount = getCartLength(JSON.parse(sessionStorage.getItem('cartItems')));
+      setCartLength(cartCount);
+    }
+  },[cartItems])
 
- useEffect(()=> {
-  if(Object.keys(user).length) {
-    sessionStorage.setItem('user', JSON.stringify(user));
-    setUserEmail(user.email);
-  } else if (sessionStorage.getItem('user')) {
-    const localUser = JSON.parse(sessionStorage.getItem('user'));
-    setUserEmail(localUser.email);
+  useEffect(()=> {
+    if(Object.keys(user).length) {
+      sessionStorage.setItem('user', JSON.stringify(user));
+      setUserEmail(user.email);
+    } else if (sessionStorage.getItem('user')) {
+      const localUser = JSON.parse(sessionStorage.getItem('user'));
+      setUserEmail(localUser.email);
+    }
+  },[user])
+ 
+  const getCartLength = (cartItems) => {
+    let cartCount = 0;
+    for(let item of cartItems) {
+      cartCount += item.quantity;
+    }
+    return cartCount;
   }
- },[user])
-
 
   const logoutHandler = e => {
     e.preventDefault();

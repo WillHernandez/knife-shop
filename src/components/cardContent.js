@@ -54,7 +54,11 @@ export const MediaCard = ({brand}) => {
 							<a href={`/${product.brand}/${product.name}`}>
         				<Button size="small">More Details</Button>
 							</a>
-        			<Button onClick={e => {e.preventDefault(); handleAddToCart(product, 1)}} className={`${product.brand}_btn`} id={`${product.name}`} size="small">Add To Cart</Button>
+        			<Button onClick={e => {
+								e.preventDefault();
+								handleAddToCart(product, 1)}
+								} className={`${product.brand}_btn`} id={`${product.name}`} size="small">Add To Cart
+							</Button>
       			</CardActions>
     			</Card>
 				)
