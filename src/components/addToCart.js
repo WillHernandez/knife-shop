@@ -15,13 +15,15 @@ async function addToCart(product, quantity) {
 	let wasDuplicate = false;
 	for(let i = 0; i < cartItemsCopy.length; ++i) {
 		if(cartItemsCopy[i].item === product.name) {
-			cartItemsCopy[i].quantity += 1;
+			cartItemsCopy[i].quantity += cartItem.quantity;
+			product.quantity -= cartItem.quantity;
 			wasDuplicate = true;
 			break;
 		}
 	}
 	if(!wasDuplicate) {
 		cartItemsCopy.push(cartItem);
+		product.quantity -= cartItem.quantity;
 	}
 	sessionStorage.setItem('cartItems', JSON.stringify(cartItemsCopy));
 
@@ -31,8 +33,14 @@ async function addToCart(product, quantity) {
 		user.cartItems = cartItemsCopy;
 		await axios.patch(`http://localhost:4000/api/orders/${user.email}`, user)
 		.catch(e => console.error({error: e.message}))
+
+		// remove quantity from item on products/db
+		axios.patch(`http://localhost:4000/api/products`, {...product})
+		.catch(e => console.error({error: e.message}))
 	}
 
+	// possily return an array with new product to update details dropdown count
+	// also we can use this to determine if addToCart btn on cardcontent page is active
 	return cartItemsCopy;
 }
 

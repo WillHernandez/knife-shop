@@ -22,12 +22,12 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Details({ product }) {
+	const [retQuantity, setRetQuantity] = React.useState(0);
+	
 	const	handleAddToCart = async (product, quantity) => {
 		const cartItemsCopy = await addToCart(product, quantity);
 		setGlobalState('cartItems', cartItemsCopy);
 	}
-
-	const [retQuantity, setRetQuantity] = useState(0);
 
   return (
 		<React.Fragment>
@@ -53,7 +53,7 @@ export default function Details({ product }) {
 							<h3>Our Sale Price:</h3>
 							<h3>{`$${product.price}.00!`}</h3>
 							<p>{product.quantity > 0 ? "In Stock!" : "Out Of Stock :-("}</p> 
-							<SelectVariants setRetQuantity={setRetQuantity} product={product}/>
+							<SelectVariants product={product} setRetQuantity={setRetQuantity}/>
 							<Button onClick={e =>{e.preventDefault(); return handleAddToCart(product, retQuantity)}} className='cartBtn' style={{width:'90%'}} variant="contained" color='warning' size="medium">Add To Cart</Button>
 						</Item>
         	</Grid>
@@ -83,7 +83,8 @@ export default function Details({ product }) {
 }
 
 const SelectVariants = ({product, setRetQuantity}) => {
-	const [menuArr, setMenuArr] = useState([]);
+	const [menuArr, setMenuArr] = React.useState([]);
+  const [quantity, setQuantity] = React.useState('');
 
 	useEffect(()=> {
 		let arr = [];
@@ -94,6 +95,7 @@ const SelectVariants = ({product, setRetQuantity}) => {
 	},[product])
 
   const handleChange = (event) => {
+    setQuantity(event.target.value);
 		setRetQuantity(event.target.value);
   };
 
@@ -105,11 +107,12 @@ const SelectVariants = ({product, setRetQuantity}) => {
         <Select
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
+          value={quantity}
           onChange={handleChange}
           label="quantity"
         >
-					{menuArr.map(item => {
-						return <MenuItem value={item}>{item}</MenuItem>
+					{menuArr.map((item, i) => {
+						return <MenuItem key={i} value={item}>{item}</MenuItem>
 					})}
         </Select>
       </FormControl>

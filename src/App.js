@@ -12,7 +12,6 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [products, setProducts] = useState([]);
-
   useEffect(() => {
 		axios(`http://localhost:4000/api/products`)
 		.then(res => setProducts(res.data))

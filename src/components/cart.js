@@ -64,10 +64,9 @@ const Cart = () => {
     if(sessionStorage.getItem('userOrder')) {
       user = JSON.parse(sessionStorage.userOrder);
       user.cartItems = cartCopy;
+      await axios.patch(`http://localhost:4000/api/orders/${user.email}`, user)
+      .catch(err => console.log({err: err.message}))
     }
-    // confirm deleting from DB Correctly... must provide complete user obj with new cartItems arr
-    await axios.patch(`http://localhost:4000/api/orders/${user.email}`, user)
-    .catch(err => console.log({err: err.message}))
   }
 
   return (
