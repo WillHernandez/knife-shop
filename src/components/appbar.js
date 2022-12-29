@@ -69,7 +69,7 @@ export default function ProminentAppBar() {
   return (
     <div>
       <div className="above">
-        {userEmail ? <button onClick={logoutHandler} className='logoutBtn'>Logout</button> : <a href="/login">Login/Register</a>} | <button className="helpBtn">Help</button> | <button className="contactBtn">Contact Us</button>
+        {userEmail ? <button onClick={logoutHandler} className='logoutBtn'>Logout</button> : <a href="/login"><button className='loginBtn'>Login/Register</button></a>} | <button className="helpBtn">Help</button> | <button className="contactBtn">Contact Us</button>
       </div>
 
       <Box sx={{ flexGrow: 1 }}>
