@@ -20,7 +20,7 @@ export const MediaCard = ({brand}) => {
 			.then(res => setProducts(res.data))
 			.catch(e => console.log({error: e.message}))
 		} else {
-			axios('http://localhost:4000/api/products')
+			axios('https://curious-bracelet-ant.cyclic.app/api/products')
 			.then(res => setProducts(res.data))
 			.catch(e => console.log({error: e.message}))
 		}

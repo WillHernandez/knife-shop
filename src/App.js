@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react';
 function App() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-		axios(`http://localhost:4000/api/products`)
+		axios('https://curious-bracelet-ant.cyclic.app/api/products')
 		.then(res => setProducts(res.data))
 		.catch(e => console.log({error: e.message}))
   }, [])
