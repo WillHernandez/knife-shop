@@ -16,7 +16,7 @@ export const MediaCard = ({brand}) => {
 
 	useEffect(() => {
 		if(brand) {
-			axios(`http://localhost:4000/api/products/${brand}`)
+			axios(`https://curious-bracelet-ant.cyclic.app/api/products/${brand}`)
 			.then(res => setProducts(res.data))
 			.catch(e => console.log({error: e.message}))
 		} else {
