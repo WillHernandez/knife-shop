@@ -22,6 +22,7 @@ const theme = createTheme();
 export default function Login() {
 	const [loginMessage, setLoginMessage] = useState('');
 	const navigate = useNavigate();
+	const hostUrl = 'https://curious-bracelet-ant.cyclic.app';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,12 +30,12 @@ export default function Login() {
 
  // retrieve user from database.. successful login = redirect to homepage. add to global state vars
  		try {
-				const res = await axios.post('http://localhost:4000/api/user/login', {
+				const res = await axios.post(`${hostUrl}/api/user/login`, {
 					email: data.get('email'),
 					password: data.get('password')	
 				})
 				if(res.statusText === 'OK') {
-					const orderRes = await axios(`http://localhost:4000/api/orders/${data.get('email')}`);
+					const orderRes = await axios(`${hostUrl}/api/orders/${data.get('email')}`);
 					setGlobalState("user", res.data);
 					setGlobalState("cartItems", orderRes.data.cartItems);
 					setGlobalState("userOrder", orderRes.data);

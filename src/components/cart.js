@@ -35,6 +35,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Cart = () => {
   const globalCartItems = useGlobalState('cartItems')[0];
   const [cartItems, setCartItems] = useState([]);
+  const hostUrl = 'https://curious-bracelet-ant.cyclic.app';
 
 	useEffect(()=> {
     if(globalCartItems.length) {
@@ -64,7 +65,7 @@ const Cart = () => {
     if(sessionStorage.getItem('userOrder')) {
       user = JSON.parse(sessionStorage.userOrder);
       user.cartItems = cartCopy;
-      await axios.patch(`http://localhost:4000/api/orders/${user.email}`, user)
+      await axios.patch(`${hostUrl}/api/orders/${user.email}`, user)
       .catch(err => console.log({err: err.message}))
     }
   }

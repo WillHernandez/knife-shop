@@ -1,6 +1,7 @@
 import axios from "axios";
 
 async function addToCart(product, quantity) {
+	const hostUrl = 'https://curious-bracelet-ant.cyclic.app';
 	const cartItem = {
 		"item": product.name,
 		"price": product.price,
@@ -31,11 +32,11 @@ async function addToCart(product, quantity) {
 	if(sessionStorage.getItem('user')) {
 		user = JSON.parse(sessionStorage.getItem('userOrder'));
 		user.cartItems = cartItemsCopy;
-		await axios.patch(`http://localhost:4000/api/orders/${user.email}`, user)
+		await axios.patch(`${hostUrl}/api/orders/${user.email}`, user)
 		.catch(e => console.error({error: e.message}))
 
 		// remove quantity from item on products/db
-		axios.patch(`http://localhost:4000/api/products`, {...product})
+		axios.patch(`${hostUrl}/api/products`, {...product})
 		.catch(e => console.error({error: e.message}))
 	}
 

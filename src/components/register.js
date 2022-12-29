@@ -21,6 +21,7 @@ const theme = createTheme();
 export default function Register() {
 	const [loginFailMessage, setLoginFailMessage] = useState('');
 	const navigate = useNavigate();
+	const hostUrl = 'https://curious-bracelet-ant.cyclic.app';
 	const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 	const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
@@ -41,7 +42,7 @@ export default function Register() {
 
  // retrieve user from database.. successful login = redirect to homepage
  		try {
-				const res = await axios.post('http://localhost:4000/api/user/signup', {
+				const res = await axios.post(`${hostUrl}/api/user/signup`, {
 					email: data.get('email'),
 					password: data.get('password')	
 				})

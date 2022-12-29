@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import Carousel from 'react-material-ui-carousel'
 import addToCart from './addToCart';
 import { setGlobalState } from '../state';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
