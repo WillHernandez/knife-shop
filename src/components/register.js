@@ -48,9 +48,13 @@ export default function Register() {
 					setGlobalState('user', res.data);
 					sessionStorage.setItem('user', JSON.stringify(res.data));
 					navigate('/');
-				} else {
-					setLoginFailMessage("An error occured during registration.");
+					return;
 				}
+				if(res.status === 209) {
+					setLoginFailMessage("User email already exists.");
+					return;
+				}
+				setLoginFailMessage("An error occured during registration.");
  			} catch (e) {
 				setLoginFailMessage(e.response.data)
  			}
