@@ -20,6 +20,8 @@ const theme = createTheme();
 
 export default function Register() {
 	const [loginFailMessage, setLoginFailMessage] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
 	const hostUrl = 'https://curious-bracelet-ant.cyclic.app';
 	const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
@@ -27,9 +29,8 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-		const validEmail = data.get('email').match(emailRegex);
-		const validPw = data.get('password').match(pwRegex);
+		const validEmail = email.match(emailRegex);
+		const validPw = password.match(pwRegex);
 
 		if(!validEmail) {
 			setLoginFailMessage('You must provide a valid email address');
@@ -42,11 +43,8 @@ export default function Register() {
 
  // retrieve user from database.. successful login = redirect to homepage
  		try {
-				const res = await axios.post(`${hostUrl}/api/user/signup`, {
-					email: data.get('email'),
-					password: data.get('password')	
-				})
-				if(res.statusText === 'OK') {
+				const res = await axios.post(`${hostUrl}/api/user/signup`, { email, password });
+				if(res.status === 200) {
 					setGlobalState('user', res.data);
 					sessionStorage.setItem('user', JSON.stringify(res.data));
 					navigate('/');
@@ -88,7 +86,7 @@ export default function Register() {
 								autoComplete="name"
 								autoFocus
 							/>
-							<TextField
+							<TextField onChange={e => setEmail(e.target.value)}
 								margin="normal"
 								required
 								fullWidth
@@ -98,7 +96,7 @@ export default function Register() {
 								autoComplete="email"
 								autoFocus
 							/>
-							<TextField
+							<TextField onChange={e => setPassword(e.target.value)}
 								margin="normal"
 								required
 								fullWidth
