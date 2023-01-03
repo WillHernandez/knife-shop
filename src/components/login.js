@@ -21,6 +21,8 @@ const theme = createTheme();
 
 export default function Login() {
 	const [loginMessage, setLoginMessage] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
 	const hostUrl = 'https://curious-bracelet-ant.cyclic.app';
 
@@ -30,10 +32,7 @@ export default function Login() {
 
  // retrieve user from database.. successful login = redirect to homepage. add to global state vars
  		try {
-				const res = await axios.post(`${hostUrl}/api/user/login`, {
-					email: data.get('email'),
-					password: data.get('password')	
-				})
+				const res = await axios.post(`${hostUrl}/api/user/login`, { email, password,});
 				if(res.statusText === 'OK') {
 					const orderRes = await axios(`${hostUrl}/api/orders/${data.get('email')}`);
 					setGlobalState("user", res.data);
@@ -70,7 +69,7 @@ export default function Login() {
 					Sign in
 				</Typography>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-					<TextField
+					<TextField onChange={e => setEmail(e.target)}
 						margin="normal"
 						required
 						fullWidth
@@ -80,7 +79,7 @@ export default function Login() {
 						autoComplete="email"
 						autoFocus
 					/>
-					<TextField
+					<TextField onChange={e => setPassword(e.target)}
 						margin="normal"
 						required
 						fullWidth
