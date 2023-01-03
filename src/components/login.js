@@ -30,7 +30,7 @@ export default function Login() {
     e.preventDefault();
  // retrieve user from database.. successful login = redirect to homepage. add to global state vars
  		try {
-				const res = await axios.post(`${hostUrl}/api/user/login`, { email, password,});
+				const res = await axios.post(`${hostUrl}/api/user/login`, { email: email, password: password,});
 				if(res.statusText === 'OK') {
 					const orderRes = await axios(`${hostUrl}/api/orders/${email}`);
 					setGlobalState("user", res.data);
