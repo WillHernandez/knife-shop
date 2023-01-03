@@ -30,8 +30,8 @@ export default function Login() {
     e.preventDefault();
  // retrieve user from database.. successful login = redirect to homepage. add to global state vars
  		try {
-				const res = await axios.post(`${hostUrl}/api/user/login`, { email: email, password: password,});
-				if(res.statusText === 'OK') {
+				const res = await axios.post(`${hostUrl}/api/user/login`, { email, password });
+				if(res.status === 200) {
 					const orderRes = await axios(`${hostUrl}/api/orders/${email}`);
 					setGlobalState("user", res.data);
 					setGlobalState("cartItems", orderRes.data.cartItems);
@@ -43,7 +43,7 @@ export default function Login() {
 					navigate('/');
 				} 
  			} catch (e) {
-					e.response.status === 401 ? setLoginMessage("Could not login with the provided credentials.") : setLoginMessage("No account found. Please register.")
+					e.status === 401 ? setLoginMessage("Could not login with the provided credentials.") : setLoginMessage("No account found. Please register.")
  			}
 	};
 
