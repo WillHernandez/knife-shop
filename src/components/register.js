@@ -50,7 +50,7 @@ export default function Register() {
 					navigate('/');
 					return;
 				}
-				if(res.status === 209) {
+				if(res.status === 204) {
 					setLoginFailMessage("User email already exists.");
 					return;
 				}
