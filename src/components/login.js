@@ -43,7 +43,8 @@ export default function Login() {
 					navigate('/');
 				} 
  			} catch (e) {
-					e.response.status === 401 ? setLoginMessage("Could not login with the provided credentials.") : setLoginMessage("No account found. Please register.")
+					// e.response.status === 401 ? setLoginMessage("Could not login with the provided credentials.") : setLoginMessage("No account found. Please register.")
+					console.log(e);
  			}
 	};
 
@@ -67,7 +68,7 @@ export default function Login() {
 					Sign in
 				</Typography>
 				<Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-					<TextField onChange={e => setEmail(e.target)}
+					<TextField onChange={e => setEmail(e.target.value)}
 						margin="normal"
 						required
 						fullWidth
@@ -77,7 +78,7 @@ export default function Login() {
 						autoComplete="email"
 						autoFocus
 					/>
-					<TextField onChange={e => setPassword(e.target)}
+					<TextField onChange={e => setPassword(e.target.value)}
 						margin="normal"
 						required
 						fullWidth
