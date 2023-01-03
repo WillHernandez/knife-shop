@@ -51,7 +51,7 @@ export default function Register() {
 					return;
 				}
 				if(res.status === 204) {
-					setLoginFailMessage("User email already exists.");
+					setLoginFailMessage("Email already exists. Log-in if you are its owner");
 					return;
 				}
 				setLoginFailMessage("An error occured during registration.");
