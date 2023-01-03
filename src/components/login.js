@@ -43,8 +43,7 @@ export default function Login() {
 					navigate('/');
 				} 
  			} catch (e) {
-					// e.response.status === 401 ? setLoginMessage("Could not login with the provided credentials.") : setLoginMessage("No account found. Please register.")
-					console.log(e);
+					e.response.status === 401 ? setLoginMessage("Could not login with the provided credentials.") : setLoginMessage("No account found. Please register.")
  			}
 	};
 
