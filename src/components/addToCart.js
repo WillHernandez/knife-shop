@@ -32,10 +32,12 @@ async function addToCart(product, quantity) {
 	if(sessionStorage.getItem('user')) {
 		user = JSON.parse(sessionStorage.getItem('userOrder'));
 		user.cartItems = cartItemsCopy;
+
+		// update user && items / db
 		await axios.patch(`${hostUrl}/api/orders/${user.email}`, user)
 		.catch(e => console.error({error: e.message}))
 
-		// remove quantity from item on products/db
+		// remove quantity from item on products / db
 		axios.patch(`${hostUrl}/api/products`, {...product})
 		.catch(e => console.error({error: e.message}))
 	}
