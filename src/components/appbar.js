@@ -37,7 +37,7 @@ export default function ProminentAppBar() {
       cartCount = getCartLength(JSON.parse(sessionStorage.getItem('cartItems')));
       setCartLength(cartCount);
     } else {
-      setCartLength(cartItems.length);
+      setCartLength(0);
     }
   },[cartItems])
 
