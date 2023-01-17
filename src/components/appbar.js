@@ -59,7 +59,7 @@ export default function ProminentAppBar() {
       redirect('/cart');
       return;
     }
-  })
+  }, [userEmail])
  
   const getCartLength = (cartItems) => {
     let cartCount = 0;
