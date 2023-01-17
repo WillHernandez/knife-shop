@@ -11,7 +11,6 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import { useGlobalState, setGlobalState } from '../state/index';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   justifyContent: 'center',
@@ -27,7 +26,6 @@ export default function ProminentAppBar() {
   const user = useGlobalState('user')[0];
   const [cartLength, setCartLength] = useState(0);
   const [userEmail, setUserEmail] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     let cartCount;
@@ -70,7 +68,6 @@ export default function ProminentAppBar() {
     setCartLength(0);
     setUserEmail('');
     sessionStorage.clear();
-    navigate('/');
   }
 
   return (
