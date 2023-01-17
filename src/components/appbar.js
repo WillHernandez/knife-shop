@@ -66,6 +66,7 @@ export default function ProminentAppBar() {
     e.preventDefault();
     setGlobalState('user', {});
     setGlobalState('cartItems', []);
+    setGlobalState('userOrder', {});
     setCartLength(0);
     setUserEmail('');
     sessionStorage.clear();
