@@ -54,13 +54,6 @@ export default function ProminentAppBar() {
     }
   },[user])
 
-  useEffect(() => {
-    if(userEmail === "") {
-      redirect('/cart');
-      return;
-    }
-  }, [userEmail])
- 
   const getCartLength = (cartItems) => {
     let cartCount = 0;
     for(let item of cartItems) {
