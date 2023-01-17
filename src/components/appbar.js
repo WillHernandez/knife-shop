@@ -70,7 +70,8 @@ export default function ProminentAppBar() {
     setCartLength(0);
     setUserEmail('');
     sessionStorage.clear();
-    return redirect('/');
+    redirect('/');
+    return;
   }
 
   return (
