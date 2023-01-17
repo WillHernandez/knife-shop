@@ -11,7 +11,6 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import { useGlobalState, setGlobalState } from '../state/index';
 import { useEffect, useState } from 'react';
-import { redirect } from 'react-router-dom';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   justifyContent: 'center',
@@ -70,8 +69,6 @@ export default function ProminentAppBar() {
     setCartLength(0);
     setUserEmail('');
     sessionStorage.clear();
-    // redirect('/cart');
-    // return;
   }
 
   return (
