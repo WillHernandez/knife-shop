@@ -55,7 +55,7 @@ export default function ProminentAppBar() {
   },[user])
 
   useEffect(() => {
-    if(!userEmail.length === 0) {
+    if(userEmail === "") {
       redirect('/cart');
       return;
     }
