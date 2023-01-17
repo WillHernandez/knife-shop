@@ -53,6 +53,13 @@ export default function ProminentAppBar() {
       setUserEmail(localUser.email);
     }
   },[user])
+
+  useEffect(() => {
+    if(!sessionStorage.getItem('user')) {
+      redirect('/');
+      return;
+    }
+  })
  
   const getCartLength = (cartItems) => {
     let cartCount = 0;
@@ -70,8 +77,8 @@ export default function ProminentAppBar() {
     setCartLength(0);
     setUserEmail('');
     sessionStorage.clear();
-    redirect('/cart');
-    return;
+    // redirect('/cart');
+    // return;
   }
 
   return (
